@@ -69,15 +69,17 @@ function playRound(humanChoice, computerChoice) {
 
 //  End the game and display scores
 function gameOver() {
+  console.log("Game Over!");
   if (humanScore > computerScore) {
     alert(`Game Over. You Win!\n Score: ${humanScore}\n Opponent: ${computerScore}`);
+  } else if (humanScore === computerScore) {
+    alert(`It's a DRAW!\n Score: ${humanScore}\n Opponent: ${computerScore}`);
   } else {
     alert(`Game Over. You Lose!\n Score: ${humanScore}\n Opponent: ${computerScore}`);
   }
 }
 
-// Write a function to play a game of 5 rounds, give the player an option to quit,
-// display score to console after each round
+// Write a function to play a game of 5 rounds, give the player an option to quit
 function playGame() {
   roundsPlayed = 0;
 
@@ -88,6 +90,7 @@ function playGame() {
   gameOver();
 }
 
+// Initialise game
 playGame();
 
 // const continuePrompt = () => {
