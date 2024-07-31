@@ -24,7 +24,7 @@ let getComputerChoice = () => {
 
 // Write a function to get users input of rock paper or scissor
 let getHumanChoice = () => {
-  let getUserInput = prompt("Would you like to play PAPER(P), ROCK(R), or SCISSOR(S)?");
+  let getUserInput = prompt("Choose your weapon! PAPER(P), ROCK(R), or SCISSOR(S)?");
   let humanSelection = "";
 
   if (getUserInput.toLowerCase() === "p" || getUserInput.toLowerCase() === "paper") {
@@ -92,13 +92,3 @@ function playGame() {
 
 // Initialise game
 playGame();
-
-// const continuePrompt = () => {
-//   prompt("Would You Like to continue (y/n)?");
-
-//   if (continuePrompt === "y") {
-//     playRound();
-//   } else {
-//     gameOver();
-//   }
-// };
