@@ -31,7 +31,7 @@ paperButton.textContent = "paper";
 scissorButton.textContent = "scissor";
 playAgain.textContent = "Play Again";
 playButton.textContent = "Start";
-h1Start.textContent = "Paper Rock Scissor";
+h1Start.textContent = "Rock Paper Scissor";
 
 // Classes for css
 buttonContainer.classList.add(".buttonContainer");
