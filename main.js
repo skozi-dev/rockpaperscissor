@@ -2,51 +2,30 @@
 // ROCK PAPER SCISSOR
 //=================================
 
-// Keep Track of Score
+//  List Possible Choices
+const choices = ["rock", "paper", "scissor"];
+
+// Keep track of scores
 let humanScore = 0;
 let computerScore = 0;
 
-// Create a function to randomly generate rock paper or scissor
-let getComputerChoice = () => {
-  let randomNumber = Math.floor(Math.random() * 3);
-  let computerSelection = "";
+// Generate randomised computer play
+const getComputerChoice = () => {
+  let randomNum = Math.floor(Math.random() * choices.length);
+  let computerChoice = choices[randomNum];
 
-  if (randomNumber === 0) {
-    computerSelection = "rock";
-  } else if (randomNumber === 1) {
-    computerSelection = "paper";
-  } else {
-    computerSelection = "scissor";
-  }
-
-  return computerSelection;
+  return computerChoice;
 };
 
-// Write a function to get users input of rock paper or scissor
-let getHumanChoice = () => {
-  let getUserInput = prompt("Choose your weapon! PAPER(P), ROCK(R), or SCISSOR(S)?");
-  let humanSelection = "";
+// Get players choice of throw
+const getHumanChoice = () => {
+  let humanChoice = prompt("Choose your throw! Paper, Rock, Scissor?").toLowerCase();
 
-  if (getUserInput.toLowerCase() === "p" || getUserInput.toLowerCase() === "paper") {
-    humanSelection = "paper";
-  } else if (getUserInput.toLowerCase() === "r" || getUserInput.toLowerCase() === "rock") {
-    humanSelection = "rock";
-  } else if (getUserInput.toLowerCase() === "s" || getUserInput.toLowerCase() === "scissor") {
-    humanSelection = "scissor";
-  } else {
-    alert("Please choose a valid move!");
-    getHumanChoice();
-  }
-
-  return humanSelection;
+  return humanChoice;
 };
 
-// Write the logic to play a single round
-function playRound(humanChoice, computerChoice) {
-  humanChoice = getHumanChoice();
-  computerChoice = getComputerChoice();
-
-  // Compare humanChoice vs computerChoice to get result
+// Logic for one round of gameplay
+const playRound = (humanChoice, computerChoice) => {
   if (humanChoice === "rock" && computerChoice === "paper") {
     console.log("Paper beats Rock! You lose!");
     computerScore += 1;
@@ -62,33 +41,24 @@ function playRound(humanChoice, computerChoice) {
     console.log(`${humanChoice} beats ${computerChoice}! You Win!`);
     humanScore += 1;
   }
+};
 
-  console.log("Your Score: " + humanScore);
-  console.log("Computer Score: " + computerScore);
-}
-
-//  End the game and display scores
-function gameOver() {
-  console.log("Game Over!");
+// Play a full game of 5 rounds
+const numberRounds = 5;
+const playGame = () => {
+  for (let i = 0; i < numberRounds; i++) {
+    const humanSelection = getHumanChoice();
+    const computerSelection = getComputerChoice();
+    playRound(humanSelection, computerSelection);
+  }
   if (humanScore > computerScore) {
-    alert(`Game Over. You Win!\n Score: ${humanScore}\n Opponent: ${computerScore}`);
-  } else if (humanScore === computerScore) {
-    alert(`It's a DRAW!\n Score: ${humanScore}\n Opponent: ${computerScore}`);
+    console.log(`You Win the Game!\nScore: ${humanScore}\nComputer Score: ${computerScore}`);
+  } else if (humanScore < computerScore) {
+    console.log(`You lost. Computer Wins.\nScore: ${humanScore}\nComputer Score: ${computerScore}`);
   } else {
-    alert(`Game Over. You Lose!\n Score: ${humanScore}\n Opponent: ${computerScore}`);
+    console.log(`Tie Game.\n Score: ${humanScore}\nComputer Score: ${computerScore}`);
   }
-}
+};
 
-// Write a function to play a game of 5 rounds, give the player an option to quit
-function playGame() {
-  roundsPlayed = 0;
-
-  while (roundsPlayed < 5) {
-    playRound();
-    roundsPlayed += 1;
-  }
-  gameOver();
-}
-
-// Initialise game
+// Initialize Game
 playGame();
