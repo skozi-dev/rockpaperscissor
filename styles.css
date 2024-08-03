@@ -1,3 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+html {
+    background-color: #dbdbdbb6;
+    font-family:'Montserrat', sans-serif;
+}
+
+.title {
+    font-family: "Montserrat", sans-serif;
+    font-style: italic;
+    font-weight: 900;
+    font-size: 89px;
+    margin-top: 25%;
+
+}
+
+button {
+    height: 55px;
+    width: 100px;
+}
+
 body {
     display: block;
     text-align: center;
@@ -6,11 +27,12 @@ body {
 }
 
 .buttonContainer {
-
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-content: center;
     gap: 15px;
     margin: 50px;
+    margin-top: 15%;
     
 }

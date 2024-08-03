@@ -6,6 +6,9 @@
 let humanScore = 0;
 let computerScore = 0;
 
+// Number of Rounds to Play
+let roundsToPlay = 5;
+
 // The gameboard - the base of all displayable views
 const body = document.querySelector("body");
 
@@ -13,17 +16,20 @@ const body = document.querySelector("body");
 const playButton = document.createElement("button");
 const h1Start = document.createElement("h1");
 
-// Create all elements for Gameplay View
+// Create all elements for Gameplay Views
 const buttonContainer = document.createElement("div");
 const rockButton = document.createElement("button");
 const paperButton = document.createElement("button");
 const scissorButton = document.createElement("button");
-const winnerH1 = document.createElement("h1");
-const playAgain = document.createElement("button");
 const resultDiv = document.createElement("div");
 const result = document.createElement("p");
-const currentScore = document.createElement("h2");
 const actionButtons = [rockButton, paperButton, scissorButton];
+
+// Create all elements for Winner View
+const winnerH1 = document.createElement("h1");
+const playAgain = document.createElement("button");
+const currentScore = document.createElement("h2");
+const winnerDiv = document.createElement("div");
 
 // Text content for elements
 rockButton.textContent = "rock";
@@ -33,13 +39,16 @@ playAgain.textContent = "Play Again";
 playButton.textContent = "Start";
 h1Start.textContent = "Rock Paper Scissor";
 
-// Classes for css
-buttonContainer.classList.add(".buttonContainer");
+// Classes for styling
+h1Start.classList.add("title");
+buttonContainer.classList.add("buttonContainer");
+winnerDiv.classList.add("winnerDiv");
 
-//  Display Start Screen
+// Display Start Screen
 body.appendChild(h1Start);
 body.appendChild(playButton);
 
+// Display Player Options to begin gameplay (clear scores and reset gameboard if new game)
 const gameStart = () => {
   humanScore = 0;
   computerScore = 0;
@@ -88,23 +97,24 @@ const playRound = (humanSelection, computerSelection) => {
 };
 
 const showScore = () => {
-  currentScore.innerText = `Your Score: ${humanScore} Computer Score: ${computerScore}`;
+  currentScore.innerText = `Player : ${humanScore}\nComputer : ${computerScore}`;
   resultDiv.appendChild(currentScore);
 };
 
 const findWinner = () => {
-  if (humanScore === 5 && computerScore < 5) {
+  if (humanScore === roundsToPlay && computerScore < roundsToPlay) {
     winnerH1.innerText = "You Win the Game!";
     winnerScreen();
-  } else if (humanScore < 5 && computerScore === 5) {
+  } else if (humanScore < roundsToPlay && computerScore === roundsToPlay) {
     winnerH1.innerText = "You lost. Computer wins the Game.";
     winnerScreen();
-  } else if (humanScore === computerScore && humanScore === 5) {
+  } else if (humanScore === computerScore && humanScore === roundsToPlay) {
     winnerH1.innerText = "Tie Game";
     winnerScreen();
   }
 };
 
+// Display Winner
 const winnerScreen = () => {
   actionButtons.forEach((button) => {
     button.remove();
@@ -112,9 +122,11 @@ const winnerScreen = () => {
 
   resultDiv.remove();
 
-  buttonContainer.appendChild(winnerH1);
-  buttonContainer.appendChild(currentScore);
-  buttonContainer.appendChild(playAgain);
+  body.append(winnerDiv);
+
+  winnerDiv.appendChild(winnerH1);
+  winnerDiv.appendChild(currentScore);
+  winnerDiv.appendChild(playAgain);
 };
 
 // Add event listeners for buttons
