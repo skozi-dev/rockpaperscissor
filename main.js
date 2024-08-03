@@ -2,35 +2,60 @@
 // ROCK PAPER SCISSOR
 //=================================
 
-//  List Possible Choices
-const choices = ["rock", "paper", "scissor"];
-
-// Create 3 new buttons to represent paper rock scissor
-const rockButton = document.createElement("button");
-const paperButton = document.createElement("button");
-const scissorButton = document.createElement("button");
-rockButton.textContent = "rock";
-paperButton.textContent = "paper";
-scissorButton.textContent = "scissor";
-
-// Append buttons to body of html
-const buttons = [rockButton, paperButton, scissorButton];
-const body = document.querySelector("body");
-buttons.forEach((button) => {
-  body.appendChild(button);
-});
-
-// Create display board
-const resultDiv = document.createElement("div");
-const result = document.createElement("p");
-const currentScore = document.createElement("h2");
-
-// Keep track of scores
+// Keep track of scores globally
 let humanScore = 0;
 let computerScore = 0;
 
+// The gameboard - the base of all displayable views
+const body = document.querySelector("body");
+
+// Create Elements for Start View
+const playButton = document.createElement("button");
+const h1Start = document.createElement("h1");
+
+// Create all elements for Gameplay View
+const buttonContainer = document.createElement("div");
+const rockButton = document.createElement("button");
+const paperButton = document.createElement("button");
+const scissorButton = document.createElement("button");
+const winnerH1 = document.createElement("h1");
+const playAgain = document.createElement("button");
+const resultDiv = document.createElement("div");
+const result = document.createElement("p");
+const currentScore = document.createElement("h2");
+const actionButtons = [rockButton, paperButton, scissorButton];
+
+// Text content for elements
+rockButton.textContent = "rock";
+paperButton.textContent = "paper";
+scissorButton.textContent = "scissor";
+playAgain.textContent = "Play Again";
+playButton.textContent = "Start";
+h1Start.textContent = "Paper Rock Scissor";
+
+// Classes for css
+buttonContainer.classList.add(".buttonContainer");
+
+//  Display Start Screen
+body.appendChild(h1Start);
+body.appendChild(playButton);
+
+const gameStart = () => {
+  humanScore = 0;
+  computerScore = 0;
+  body.textContent = "";
+  buttonContainer.textContent = "";
+
+  // Append buttons to button container
+  body.appendChild(buttonContainer);
+  actionButtons.forEach((button) => {
+    buttonContainer.appendChild(button);
+  });
+};
+
 // Generate randomized computer play
 const getComputerChoice = () => {
+  const choices = ["Rock", "Paper", "Scissor"];
   let randomNum = Math.floor(Math.random() * choices.length);
   let computerChoice = choices[randomNum];
 
@@ -42,60 +67,73 @@ const playRound = (humanSelection, computerSelection) => {
   body.appendChild(resultDiv);
   resultDiv.appendChild(result);
 
-  if (humanSelection === "rock" && computerSelection === "paper") {
+  if (humanSelection === "Rock" && computerSelection === "Paper") {
     result.textContent = "Paper beats Rock! You lose!";
     computerScore += 1;
-  } else if (humanSelection === "paper" && computerSelection === "scissor") {
+  } else if (humanSelection === "Paper" && computerSelection === "Scissor") {
     result.textContent = "Scissor beats Paper! You lose!";
     computerScore += 1;
-  } else if (humanSelection === "scissor" && computerSelection === "rock") {
+  } else if (humanSelection === "Scissor" && computerSelection === "Rock") {
     result.textContent = "Rock beats Scissor! You lose!";
     computerScore += 1;
   } else if (humanSelection === computerSelection) {
-    result.textContent = `${humanSelection.toUpperCase()} and ${computerSelection.toUpperCase()} - it's a stalemate. No Score.`;
+    result.textContent = `${humanSelection} and ${computerSelection} - it's a stalemate. No Score.`;
   } else {
-    result.textContent = `${humanSelection.toUpperCase()} beats ${computerSelection.toUpperCase()}! You Win!`;
+    result.textContent = `${humanSelection} beats ${computerSelection}! You Win!`;
     humanScore += 1;
+  }
+
+  showScore();
+  findWinner();
+};
+
+const showScore = () => {
+  currentScore.innerText = `Your Score: ${humanScore} Computer Score: ${computerScore}`;
+  resultDiv.appendChild(currentScore);
+};
+
+const findWinner = () => {
+  if (humanScore === 5 && computerScore < 5) {
+    winnerH1.innerText = "You Win the Game!";
+    winnerScreen();
+  } else if (humanScore < 5 && computerScore === 5) {
+    winnerH1.innerText = "You lost. Computer wins the Game.";
+    winnerScreen();
+  } else if (humanScore === computerScore && humanScore === 5) {
+    winnerH1.innerText = "Tie Game";
+    winnerScreen();
   }
 };
 
+const winnerScreen = () => {
+  actionButtons.forEach((button) => {
+    button.remove();
+  });
+
+  resultDiv.remove();
+
+  buttonContainer.appendChild(winnerH1);
+  buttonContainer.appendChild(currentScore);
+  buttonContainer.appendChild(playAgain);
+};
+
 // Add event listeners for buttons
+playButton.addEventListener("click", gameStart);
+
 rockButton.addEventListener("click", () => {
   const computerSelection = getComputerChoice();
-  const humanSelection = "rock";
+  const humanSelection = "Rock";
   playRound(humanSelection, computerSelection);
 });
 paperButton.addEventListener("click", () => {
   const computerSelection = getComputerChoice();
-  const humanSelection = "paper";
+  const humanSelection = "Paper";
   playRound(humanSelection, computerSelection);
 });
 scissorButton.addEventListener("click", () => {
   const computerSelection = getComputerChoice();
-  const humanSelection = "scissor";
+  const humanSelection = "Scissor";
   playRound(humanSelection, computerSelection);
 });
 
-const showScore = () => {
-  currentScore.innerText = `Your Score: ${humanScore}\nComputer Score: ${computerScore}`;
-  resultDiv.appendChild(currentScore);
-};
-// // Play a full game of 5 rounds
-// const numberRounds = 5;
-// const playGame = () => {
-//   for (let i = 0; i < numberRounds; i++) {
-//     const humanSelection = getHumanChoice();
-//     const computerSelection = getComputerChoice();
-//     playRound(humanSelection, computerSelection);
-//   }
-//   if (humanScore > computerScore) {
-//     console.log(`You Win the Game!\nScore: ${humanScore}\nComputer Score: ${computerScore}`);
-//   } else if (humanScore < computerScore) {
-//     console.log(`You lost. Computer Wins.\nScore: ${humanScore}\nComputer Score: ${computerScore}`);
-//   } else {
-//     console.log(`Tie Game.\n Score: ${humanScore}\nComputer Score: ${computerScore}`);
-//   }
-// };
-
-// Initialize Game
-// playGame();
+playAgain.addEventListener("click", gameStart);
